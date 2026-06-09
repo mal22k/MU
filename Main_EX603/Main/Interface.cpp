@@ -967,6 +967,22 @@ void Interface::Work()
 	gInterface.DrawLogo(0);
 
 	pDrawInterface();
+
+#if(BATTLE_PASS)
+	gBattlePassClient.Draw();
+#endif
+
+#if(KILL_STREAK)
+	gKillStreakClient.Draw();
+#endif
+
+#if(EXT_MASTER_TREE)
+	gExtMasterTreeClient.Draw();
+#endif
+
+#if(CLIENT_LUA)
+	gClientLuaEngine.OnDraw();
+#endif
 }
 
 bool Interface::UpdateKey(DWORD Class)
@@ -1890,6 +1906,14 @@ void Interface::EventMenuWindow(DWORD Event)
 				this->SwitchMenuWindowState();
 			break;
 		}
+
+#if(BATTLE_PASS)
+		gBattlePassClient.HandleMouse();
+#endif
+
+#if(EXT_MASTER_TREE)
+		gExtMasterTreeClient.HandleMouse();
+#endif
 
 		this->CLOSE_MENU();
 		Data[eMENU_MAIN].CloseAnimated(15);

@@ -101,6 +101,10 @@
 #include "CustomFlag.h"
 #include "CustomRanking.h"
 
+#if(CLIENT_LUA)
+#include "CustomLuaEngine.h"
+#endif
+
 Discord* g_Discord;
 
 HHOOK HookKB,HookMS;
@@ -1265,8 +1269,15 @@ BOOL APIENTRY DllMain(HANDLE hModule,DWORD ul_reason_for_call,LPVOID lpReserved)
 		case DLL_PROCESS_ATTACH:
 			hins = (HINSTANCE)hModule;
 			gController.Instance = static_cast<HMODULE>(hModule);
+#if(CLIENT_LUA)
+			gClientLuaEngine.Init();
+			gClientLuaEngine.LoadScripts("Data\\LuaScripts");
+#endif
 			break;
 		case DLL_PROCESS_DETACH:
+#if(CLIENT_LUA)
+			gClientLuaEngine.Shutdown();
+#endif
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:
 		default:

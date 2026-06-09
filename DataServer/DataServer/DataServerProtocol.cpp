@@ -6,6 +6,8 @@
 #include "CharacterManager.h"
 #include "CommandManager.h"
 #include "CSProtocol.h"
+#include "CustomBattlePass.h"
+#include "CustomExtMasterTree.h"
 #include "DataServer.h"
 #include "ESProtocol.h"
 #include "EventInventory.h"
@@ -674,10 +676,40 @@ void DataServerProtocolCore(int index,BYTE head,BYTE* lpMsg,int size) // OK
 			#endif
 			break;
 		case 0x50:
-			GDCustomMonsterKilLCountRecv((SDHP_MONSTER_KILL_COUNT_RECV*)lpMsg, index);
+			switch(((lpMsg[0]==0xC1)?lpMsg[3]:lpMsg[4]))
+			{
+				case 0x01:
+					#if(BATTLE_PASS)
+					gCustomBattlePassDS.GDBattlePassLoadRecv((SDHP_BATTLEPASS_LOAD_SEND*)lpMsg, index);
+					#endif
+					break;
+				default:
+					GDCustomMonsterKilLCountRecv((SDHP_MONSTER_KILL_COUNT_RECV*)lpMsg, index);
+					break;
+			}
+			break;
+		case 0x51:
+			#if(BATTLE_PASS)
+			gCustomBattlePassDS.GDBattlePassSaveRecv((SDHP_BATTLEPASS_SAVE_SEND*)lpMsg);
+			#endif
 			break;
 		case 0x52:
-			GDCustomMonsterRewardSaveRecv((SDHP_CUSTOM_MONSTER_REWARD_SAVE_RECV*)lpMsg);
+			switch(((lpMsg[0]==0xC1)?lpMsg[3]:lpMsg[4]))
+			{
+				case 0x01:
+					#if(EXT_MASTER_TREE)
+					gCustomExtMasterTreeDS.GDExtMasterLoadRecv((SDHP_EXT_MASTER_LOAD_SEND*)lpMsg, index);
+					#endif
+					break;
+				default:
+					GDCustomMonsterRewardSaveRecv((SDHP_CUSTOM_MONSTER_REWARD_SAVE_RECV*)lpMsg);
+					break;
+			}
+			break;
+		case 0x53:
+			#if(EXT_MASTER_TREE)
+			gCustomExtMasterTreeDS.GDExtMasterSaveRecv((SDHP_EXT_MASTER_SAVE_SEND*)lpMsg);
+			#endif
 			break;
 		case 0x55:
 			GDRankingCustomArenaSaveRecv((SDHP_RANKING_CUSTOM_ARENA_SAVE_RECV*)lpMsg);

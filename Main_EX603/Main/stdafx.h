@@ -17,6 +17,12 @@
 
 #define QuickAddStats			0
 
+// Feature Flags
+#define BATTLE_PASS             1
+#define KILL_STREAK             1
+#define EXT_MASTER_TREE         1
+#define CLIENT_LUA              1
+
 //ProTecno
 #define MENU_NEW				1
 #define LuckyWheelV2			1

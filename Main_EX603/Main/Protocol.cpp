@@ -40,6 +40,22 @@
 #include "ThueFlag.h"
 #include "CustomRanking.h"
 
+#if(BATTLE_PASS)
+#include "CustomBattlePass.h"
+#endif
+
+#if(KILL_STREAK)
+#include "CustomKillStreak.h"
+#endif
+
+#if(EXT_MASTER_TREE)
+#include "CustomExtMasterTree.h"
+#endif
+
+#if(CLIENT_LUA)
+#include "CustomLuaEngine.h"
+#endif
+
 #if(LuckyWheelV2)
 VONGQUAYINFO_CLIENT mDataVongQuayClient;
 VONGQUAY_CLIENT mDataListItemVongQuayClient;
@@ -259,6 +275,35 @@ BOOL ProtocolCoreEx(BYTE head,BYTE* lpMsg,int size,int key) // OK
 				case 0xF5:
 					gCustomJewelBank.GCCustomJewelBankInfoRecv((PSBMSG_JEWELBANK_RECV*)lpMsg);
 					break;
+#if(BATTLE_PASS)
+			case 0xA0:
+				gBattlePassClient.GCBattlePassInfoRecv(lpMsg);
+				return 1;
+			case 0xA1:
+				gBattlePassClient.GCBattlePassClaimResultRecv((PMSG_BATTLEPASS_CLAIM_RESULT_RECV*)lpMsg);
+				return 1;
+			case 0xA2:
+				gBattlePassClient.GCBattlePassExpUpdateRecv((PMSG_BATTLEPASS_EXP_UPDATE_RECV*)lpMsg);
+				return 1;
+#endif
+
+#if(KILL_STREAK)
+			case 0xA5:
+				gKillStreakClient.GCKillStreakNotifyRecv((PMSG_KILLSTREAK_NOTIFY_RECV*)lpMsg);
+				return 1;
+			case 0xA6:
+				gKillStreakClient.GCKillStreakResetRecv((PMSG_KILLSTREAK_RESET_RECV*)lpMsg);
+				return 1;
+#endif
+
+#if(EXT_MASTER_TREE)
+			case 0xB0:
+				gExtMasterTreeClient.GCExtMasterInfoRecv(lpMsg);
+				return 1;
+			case 0xB1:
+				gExtMasterTreeClient.GCExtMasterInvestResultRecv((PMSG_EXT_MASTER_INVEST_RESULT_RECV*)lpMsg);
+				return 1;
+#endif
 				case 0xF9:
 					gMiniMap.RecvPartyInfo((MINIMAP_PARTY_INFO_RECV*)lpMsg);
 					break;
