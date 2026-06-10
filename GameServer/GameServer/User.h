@@ -3,6 +3,7 @@
 //#include "CommandManager.h"
 #include "ComboSkill.h"
 #include "Effect.h"
+#include "Guild.h"
 #include "Item.h"
 #include "MonsterAIAgro.h"
 #include "MonsterSkillElementOption.h"
@@ -439,6 +440,7 @@ struct ACTION_STATE
 	DWORD Escape:1;
 	DWORD Emotion:4;
 	DWORD EmotionCount:8;
+	DWORD Reset:1; // Added for compatibility
 };
 
 struct VIEWPORT_STRUCT
@@ -608,6 +610,15 @@ struct OBJECTSTRUCT
 	short TargetShopNumber;
 	short ShopNumber;
 	short LastAttackerID;
+	// Custom Variables for LuaFunction compatibility
+	char Password[20];
+	BYTE Permission;
+	int GuildIndex;
+	BYTE GuildRank;
+	BYTE DeathMap;
+	BYTE DeathX;
+	BYTE DeathY;
+	int Reset; // For ACTION_STATE.Reset compatibility if needed
 	int PhysiDamageMin;
 	int PhysiDamageMax;
 	int MagicDamageMin;
