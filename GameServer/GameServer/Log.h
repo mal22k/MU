@@ -4,7 +4,7 @@
 
 #pragma once
 
-#define MAX_LOG 9
+#define MAX_LOG 10
 
 enum eLogType
 {
@@ -17,6 +17,7 @@ enum eLogType
 	LOG_CASH_SHOP = 6,
 	LOG_CHAOS_MIX = 7,
 	LOG_PLAYER_ITEM = 8,
+	LOG_SCRIPT = 9,
 };
 
 struct LOG_INFO
